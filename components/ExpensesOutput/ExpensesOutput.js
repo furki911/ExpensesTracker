@@ -3,11 +3,11 @@ import ExpensesSummary from "./ExpensesSummary";
 import ExpensesList from "./ExpensesList";
 
 const ExpensesOutput = (props) => {
-  const { expenses } = props;
+  const { expenses, expensesPeriod } = props;
 
   return (
     <View>
-      <ExpensesSummary />
+      <ExpensesSummary expenses={expenses} periodName={expensesPeriod} />
       <ExpensesList />
     </View>
   );
