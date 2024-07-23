@@ -1,15 +1,19 @@
+import { useCallback } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { GlobalStyles } from "../../constants/styles";
 import { getFormattedDate } from "../../util/date";
-import { useCallback } from "react";
+import { useNavigation } from "@react-navigation/native";
 
 const ExpenseItem = (props) => {
   const { description, amount, date } = props;
+  const navigation = useNavigation();
 
-  const expensePressHandler = useCallback(() => {}, []);
+  const expensePressHandler = useCallback(() => {
+    navigation.navigate('ManageExpense')
+  }, []);
 
   return (
-    <Pressable style={({ pressed }) => pressed && styles.pressed} android_ripple>
+    <Pressable onPress={expensePressHandler} style={({ pressed }) => pressed && styles.pressed} android_ripple>
       <View style={styles.expenseItem}>
         <View>
           <Text style={[styles.textBase, styles.description]}>

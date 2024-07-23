@@ -18,7 +18,7 @@ export default function App() {
   const ExpensesOverview = () => {
     return (
       <BottomTabs.Navigator
-        screenOptions={{
+        screenOptions={({navigation}) => ({
           headerStyle: {
             backgroundColor: colors.primary500,
           },
@@ -32,10 +32,12 @@ export default function App() {
               icon="add"
               size={24}
               color={tintColor}
-              onPress={() => {}}
+              onPress={() => {
+                navigation.navigate('ManageExpense')
+              }}
             />
           ),
-        }}
+        })}
       >
         <BottomTabs.Screen
           name="RecentExpenses"
