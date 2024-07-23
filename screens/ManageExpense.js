@@ -1,6 +1,7 @@
 import { useCallback, useLayoutEffect } from "react";
-import { Button, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import IconButton from "../components/UI/IconButton";
+import Button from "../components/UI/Button";
 import { GlobalStyles } from "../constants/styles";
 
 const ManageExpense = ({ route, navigation }) => {
@@ -8,6 +9,14 @@ const ManageExpense = ({ route, navigation }) => {
   const isEditing = !!editedExpenseId;
 
   const deleteExpenseHandler = useCallback(() => {
+    navigation.goBack();
+  }, []);
+
+  const cancelHandler = useCallback(() => {
+    navigation.goBack();
+  }, []);
+
+  const confirmHandler = useCallback(() => {
     navigation.goBack();
   }, []);
 
@@ -19,6 +28,14 @@ const ManageExpense = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.buttonContainer}>
+        <Button style={styles.button} mode="flat" onPress={cancelHandler}>
+          Cancel
+        </Button>
+        <Button style={styles.button} onPress={confirmHandler}>
+          {isEditing ? "Update" : "Add"}
+        </Button>
+      </View>
       <View style={styles.deleteContainer}>
         {isEditing && (
           <IconButton
@@ -38,6 +55,15 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 24,
     backgroundColor: GlobalStyles.colors.primary800,
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  button: {
+    minWidth: 120,
+    marginHorizontal: 8,
   },
   deleteContainer: {
     marginTop: 16,
