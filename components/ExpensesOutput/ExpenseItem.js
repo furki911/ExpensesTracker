@@ -5,15 +5,21 @@ import { getFormattedDate } from "../../util/date";
 import { useNavigation } from "@react-navigation/native";
 
 const ExpenseItem = (props) => {
-  const { description, amount, date } = props;
+  const { id, description, amount, date } = props;
   const navigation = useNavigation();
 
   const expensePressHandler = useCallback(() => {
-    navigation.navigate('ManageExpense')
+    navigation.navigate("ManageExpense", {
+      expenseId: id,
+    });
   }, []);
 
   return (
-    <Pressable onPress={expensePressHandler} style={({ pressed }) => pressed && styles.pressed} android_ripple>
+    <Pressable
+      onPress={expensePressHandler}
+      style={({ pressed }) => pressed && styles.pressed}
+      android_ripple
+    >
       <View style={styles.expenseItem}>
         <View>
           <Text style={[styles.textBase, styles.description]}>
