@@ -19,19 +19,11 @@ const ManageExpense = ({ route, navigation }) => {
     navigation.goBack();
   }, []);
 
-  const confirmHandler = useCallback(() => {
+  const confirmHandler = useCallback((expenseData) => {
     if (isEditing) {
-      expensesCtx.updateExpense(editedExpenseId, {
-        description: "Test",
-        amount: 19.99,
-        date: new Date("2024-07-24"),
-      });
+      expensesCtx.updateExpense(editedExpenseId, expenseData);
     } else {
-      expensesCtx.addExpense({
-        description: "Test",
-        amount: 19.99,
-        date: new Date("2024-07-24"),
-      });
+      expensesCtx.addExpense(expenseData);
     }
     navigation.goBack();
   }, []);

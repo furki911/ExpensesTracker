@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 import Input from "./Input";
 import Button from "../UI/Button";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const ExpenseForm = ({ onCancel, onSubmit, submitButtonLabel }) => {
   const [inputValues, setInputValues] = useState({
@@ -9,15 +9,21 @@ const ExpenseForm = ({ onCancel, onSubmit, submitButtonLabel }) => {
     date: "",
     description: "",
   });
+  useEffect(() => {}, [inputValues]);
+  const inputChangedHandler = (inputIdentifier, enteredValue) => {
+    setInputValues((curInputValues) => {
+      return { ...curInputValues, [inputIdentifier]: enteredValue };
+    });
+  };
 
-  const inputChangedHandler = useCallback((inputIdentifier, enteredValue) => {
-    setInputValues((curInputValues) => ({
-      ...curInputValues,
-      [inputIdentifier]: enteredValue,
-    }));
-  }, []);
-
-  const submitHandler = useCallback(() => {}, []);
+  const submitHandler = () => {
+    const expenseData = {
+      amount: +inputValues.amount,
+      date: new Date(inputValues.date),
+      description: inputValues.description,
+    };
+    onSubmit(expenseData);
+  };
 
   return (
     <View style={styles.formStyle}>
@@ -29,7 +35,7 @@ const ExpenseForm = ({ onCancel, onSubmit, submitButtonLabel }) => {
           textInputConfig={{
             keyboardType: "decimal-pad",
             onChangeText: inputChangedHandler.bind(this, "amount"),
-            value: inputValues?.amount,
+            value: inputValues.amount,
           }}
         />
         <Input
@@ -39,7 +45,7 @@ const ExpenseForm = ({ onCancel, onSubmit, submitButtonLabel }) => {
             placeholder: "YYYY-MM-DD",
             maxLength: 10,
             onChangeText: inputChangedHandler.bind(this, "date"),
-            value: inputValues?.date,
+            value: inputValues.date,
           }}
         />
       </View>
@@ -48,7 +54,7 @@ const ExpenseForm = ({ onCancel, onSubmit, submitButtonLabel }) => {
         textInputConfig={{
           multiline: true,
           onChangeText: inputChangedHandler.bind(this, "description"),
-          value: inputValues?.description,
+          value: inputValues.description,
           //   autoCapitalize: 'none'
           //   autoCorrect: false //default is true
         }}
@@ -57,7 +63,7 @@ const ExpenseForm = ({ onCancel, onSubmit, submitButtonLabel }) => {
         <Button style={styles.button} mode="flat" onPress={onCancel}>
           Cancel
         </Button>
-        <Button style={styles.button} onPress={onSubmit}>
+        <Button style={styles.button} onPress={submitHandler}>
           {submitButtonLabel}
         </Button>
       </View>
