@@ -10,6 +10,10 @@ const ManageExpense = ({ route, navigation }) => {
   const editedExpenseId = route.params?.expenseId;
   const isEditing = !!editedExpenseId;
 
+  const selectedExpense = expensesCtx.expenses.find(
+    (expense) => expense.id === editedExpenseId
+  );
+
   const deleteExpenseHandler = useCallback(() => {
     expensesCtx.deleteExpense(editedExpenseId);
     navigation.goBack();
@@ -37,6 +41,7 @@ const ManageExpense = ({ route, navigation }) => {
   return (
     <View style={styles.container}>
       <ExpenseForm
+        defaultValues={selectedExpense}
         onCancel={cancelHandler}
         onSubmit={confirmHandler}
         submitButtonLabel={isEditing ? "Update" : "Add"}
