@@ -6,6 +6,16 @@ import { fetchExpenses } from "../util/http";
 
 const RecentExpenses = () => {
   const expensesCtx = useContext(ExpensesContext);
+  // const [fetchedExpenses, setFetchedExpenses] = useState([]);
+
+  const getExpenses = async () => {
+    const expenses = await fetchExpenses();
+    expensesCtx.setExpenses(expenses);
+  };
+
+  useEffect(() => {
+    getExpenses();
+  }, []);
 
   const recentExpenses = expensesCtx.expenses.filter((expense) => {
     const today = new Date();
@@ -13,14 +23,6 @@ const RecentExpenses = () => {
 
     return expense.date > date7DaysAgo;
   });
-
-  const getExpenses = async () => {
-    const expenses = await fetchExpenses();
-  };
-
-  useEffect(() => {
-    getExpenses();
-  }, []);
 
   return (
     <ExpensesOutput
